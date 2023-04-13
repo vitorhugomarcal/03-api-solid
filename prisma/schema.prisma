@@ -19,13 +19,63 @@ model User {
   id            String   @id @default(uuid())
   name          String
   email         String   @unique
+  phone         String
+  avatar        String?
   password_hash String
   role          Role     @default(MEMBER)
   created_at    DateTime @default(now())
 
-  checkIns CheckIn[]
+  checkIns        CheckIn[]
+  exercisesByUser ExercisesByUser[]
+  history         History[]
 
   @@map("users")
+}
+
+model Exercise {
+  id    String @id @default(uuid())
+  name  String
+  group String
+  demo  String
+  thumb String
+
+  exercisesByUser ExercisesByUser[]
+  history         History[]
+
+  @@map("exercises")
+}
+
+model ExercisesByUser {
+  id          String @id @default(uuid())
+  training    String
+  series      Int
+  repetitions Int?
+  timer       Int?
+  stop        Int?
+  position    Int?
+
+  user    User   @relation(fields: [user_id], references: [id])
+  user_id String
+
+  exercise    Exercise @relation(fields: [exercise_id], references: [id])
+  exercise_id String
+
+  @@map("exercisesbyuser")
+}
+
+model History {
+  id String @id @default(uuid())
+
+  training   String
+  created_at DateTime @default(now())
+
+  user    User   @relation(fields: [user_id], references: [id])
+  user_id String
+
+  exercise    Exercise @relation(fields: [exercise_id], references: [id])
+  exercise_id String
+
+  @@map("history")
 }
 
 model CheckIn {
