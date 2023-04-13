@@ -54,6 +54,8 @@ export async function authenticate(
       })
       .status(200)
       .send({
+        refreshToken,
+        user,
         token,
       })
   } catch (err) {

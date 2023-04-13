@@ -30,6 +30,7 @@ export class InMemoryUsersRepository implements UsersRepository {
       id: randomUUID(),
       name: data.name,
       email: data.email,
+      phone: data.phone,
       password_hash: data.password_hash,
       created_at: new Date(),
     }
@@ -37,5 +38,9 @@ export class InMemoryUsersRepository implements UsersRepository {
     this.items.push(user)
 
     return user
+  }
+
+  async findAll() {
+    return this.items
   }
 }
